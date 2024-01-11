@@ -27,6 +27,15 @@ local HASH_LIKE_HEADER_TEMPLATE =
  "##",
  "",}
 
+local PYPEP8_TEMPLATE =
+{"#",
+ "# EPITECH PROJECT, %d",
+ "# %s",
+ "# File description:",
+ "# %s",
+ "#",
+ "",}
+
 local STAR_LIKE_HEADER_TEMPLATE =
 {"/*",
  "** EPITECH PROJECT, %d",
@@ -121,8 +130,10 @@ end
 local insert_header = function()
     local file_type = get_extension()
 
-    if (file_type == "sh" or file_type == "py" or file_type == "Makefile") then
+    if (file_type == "sh" or file_type == "Makefile") then
         insert_header_from_template(HASH_LIKE_HEADER_TEMPLATE)
+    elseif (file_type == "py") then
+        insert_header_from_template(PYPEP8_TEMPLATE)
     elseif(file_type == "h") then
         insert_header_from_template(HF_TEMPLATE)
     elseif (file_type == 'c' or file_type == 'cpp') then
