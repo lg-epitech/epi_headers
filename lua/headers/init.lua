@@ -86,6 +86,7 @@ local insert_header_from_template = function(template)
     local working_dir = set_dir()
     local file_name = vim.api.nvim_buf_get_name(0)
     local final_dir = ""
+    local file_type = get_extension()
 
     -- Get file_name and formatted_name for .h files
     local t={}
@@ -113,7 +114,11 @@ local insert_header_from_template = function(template)
         template[9] = string.format(template[9], formatted_name)
         template[11] = string.format(template[11], formatted_name)
     end
-    vim.api.nvim_buf_set_lines(0, 0, 1, false, template)
+    if file_type == 'h' then
+        vim.api.nvim_buf_set_lines(0, 0, 1, false, template)
+    else
+        vim.api.nvim_buf_set_lines(0, 0, 0, false, template)
+    end
 end
 
 local insert_header = function()
