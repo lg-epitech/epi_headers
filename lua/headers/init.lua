@@ -25,6 +25,7 @@ local HASH_LIKE_HEADER_TEMPLATE =
  "## File description:",
  "## %s",
  "##",
+ "",
  "",}
 
 local STAR_LIKE_HEADER_TEMPLATE =
@@ -34,6 +35,7 @@ local STAR_LIKE_HEADER_TEMPLATE =
  "** File description:",
  "** %s",
  "*/",
+ "",
  "",}
 
 local DASH_LIKE_HEADER_TEMPLATE =
@@ -43,7 +45,8 @@ local DASH_LIKE_HEADER_TEMPLATE =
  "-- File description:",
  "-- %s",
  "--",
- "",}
+ "",
+ ""}
 
 local set_dir = function()
     if (os.execute('git rev-parse --is-inside-work-tree &> /dev/null') ~= 0) then
@@ -110,7 +113,7 @@ local insert_header_from_template = function(template)
         template[9] = string.format(template[9], formatted_name)
         template[11] = string.format(template[11], formatted_name)
     end
-    vim.api.nvim_buf_set_lines(0, 0, 0, false, template)
+    vim.api.nvim_buf_set_lines(0, 0, 1, false, template)
 end
 
 local insert_header = function()
