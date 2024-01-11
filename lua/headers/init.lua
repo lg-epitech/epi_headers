@@ -25,7 +25,6 @@ local HASH_LIKE_HEADER_TEMPLATE =
  "## File description:",
  "## %s",
  "##",
- "",
  "",}
 
 local STAR_LIKE_HEADER_TEMPLATE =
@@ -35,7 +34,6 @@ local STAR_LIKE_HEADER_TEMPLATE =
  "** File description:",
  "** %s",
  "*/",
- "",
  "",}
 
 local DASH_LIKE_HEADER_TEMPLATE =
@@ -45,7 +43,6 @@ local DASH_LIKE_HEADER_TEMPLATE =
  "-- File description:",
  "-- %s",
  "--",
- "",
  ""}
 
 local set_dir = function()
