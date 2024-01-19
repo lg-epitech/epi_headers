@@ -14,7 +14,7 @@ local HF_TEMPLATE =
  "*/",
  "",
  "#ifndef %s",
- "\t#define %s",
+ "    #define %s",
  "",
  "#endif /* !%s */"}
 
