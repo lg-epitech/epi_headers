@@ -54,6 +54,12 @@ local DASH_LIKE_HEADER_TEMPLATE =
  "--",
  ""}
 
+local function copy(t)
+  local u = { }
+  for k, v in pairs(t) do u[k] = v end
+  return setmetatable(u, getmetatable(t))
+end
+
 local set_dir = function()
     if (os.execute('git rev-parse --is-inside-work-tree &> /dev/null') ~= 0) then
         return vim.loop.cwd()
@@ -93,6 +99,7 @@ local insert_header_from_template = function(template)
     local file_name = vim.api.nvim_buf_get_name(0)
     local final_dir = ""
     local file_type = get_extension()
+    local format = copy(template);
 
     -- Get file_name and formatted_name for .h files
     local t={}
@@ -112,18 +119,18 @@ local insert_header_from_template = function(template)
         final_dir = "Unknown"
     end
 
-    template[2] = string.format(template[2], year)
-    template[3] = string.format(template[3], final_dir)
-    template[5] = string.format(template[5], file_name)
-    if (template == HF_TEMPLATE) then
-        template[8] = string.format(template[8], formatted_name)
-        template[9] = string.format(template[9], formatted_name)
-        template[11] = string.format(template[11], formatted_name)
+    format[2] = string.format(format[2], year)
+    format[3] = string.format(format[3], final_dir)
+    format[5] = string.format(format[5], file_name)
+    if (format == HF_TEMPLATE) then
+        format[8] = string.format(format[8], formatted_name)
+        format[9] = string.format(format[9], formatted_name)
+        format[11] = string.format(format[11], formatted_name)
     end
     if file_type == 'h' then
-        vim.api.nvim_buf_set_lines(0, 0, 1, false, template)
+        vim.api.nvim_buf_set_lines(0, 0, 1, false, format)
     else
-        vim.api.nvim_buf_set_lines(0, 0, 0, false, template)
+        vim.api.nvim_buf_set_lines(0, 0, 0, false, format)
     end
 end
 
