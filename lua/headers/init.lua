@@ -6,53 +6,63 @@
 --
 
 local HF_TEMPLATE =
-{"/*",
- "** EPITECH PROJECT, %d",
- "** %s",
- "** File description:",
- "** %s",
- "*/",
- "",
- "#ifndef %s",
- "    #define %s",
- "",
- "#endif /* !%s */"}
+{
+    "/*",
+    "** EPITECH PROJECT, %d",
+    "** %s",
+    "** File description:",
+    "** %s",
+    "*/",
+    "",
+    "#ifndef %s",
+    "    #define %s",
+    "",
+    "#endif /* !%s */"
+}
 
 local HASH_LIKE_HEADER_TEMPLATE =
-{"##",
- "## EPITECH PROJECT, %d",
- "## %s",
- "## File description:",
- "## %s",
- "##",
- "",}
+{
+    "##",
+    "## EPITECH PROJECT, %d",
+    "## %s",
+    "## File description:",
+    "## %s",
+    "##",
+    "",
+}
 
 local PYPEP8_TEMPLATE =
-{"#",
- "# EPITECH PROJECT, %d",
- "# %s",
- "# File description:",
- "# %s",
- "#",
- "",}
+{
+    "#",
+    "# EPITECH PROJECT, %d",
+    "# %s",
+    "# File description:",
+    "# %s",
+    "#",
+    "",
+}
 
 local STAR_LIKE_HEADER_TEMPLATE =
-{"/*",
- "** EPITECH PROJECT, %d",
- "** %s",
- "** File description:",
- "** %s",
- "*/",
- "",}
+{
+    "/*",
+    "** EPITECH PROJECT, %d",
+    "** %s",
+    "** File description:",
+    "** %s",
+    "*/",
+    "",
+}
 
 local DASH_LIKE_HEADER_TEMPLATE =
-{"--",
- "-- EPITECH PROJECT, %d",
- "-- %s",
- "-- File description:",
- "-- %s",
- "--",
- ""}
+{
+    "--",
+    "-- EPITECH PROJECT, %d",
+    "-- %s",
+    "-- File description:",
+    "-- %s",
+    "--",
+    "",
+}
 
 local function copy(t)
   local u = { }
@@ -97,21 +107,25 @@ local insert_header_from_template = function(template)
     local year = os.date("%Y")
     local working_dir = set_dir()
     local file_name = vim.api.nvim_buf_get_name(0)
-    local final_dir = ""
+    local final_dir
+    local formatted_name
     local file_type = get_extension()
     local format = copy(template);
+    local t = {}
 
     -- Get file_name and formatted_name for .h files
-    local t={}
-    for str in string.gmatch(file_name, "([^".."/".."]+)") do
-        table.insert(t, str)
+    if (template == HF_TEMPLATE) then
+        t={}
+        for str in string.gmatch(file_name, "([^".."/".."]+)") do
+            table.insert(t, str)
+        end
+        file_name = t[#t]
+        formatted_name = format_for_header(file_name)
     end
-    file_name = t[#t]
-    local formatted_name = format_for_header(file_name)
 
     -- Parse proper working_dir
     if (working_dir ~= nil) then
-        t={}
+        t = {}
         for str in string.gmatch(working_dir, "([^".."/".."]+)") do
             final_dir = str
         end
@@ -119,14 +133,14 @@ local insert_header_from_template = function(template)
         final_dir = "Unknown"
     end
 
-    format[2] = string.format(format[2], year)
-    format[3] = string.format(format[3], final_dir)
-    format[5] = string.format(format[5], file_name)
-    if (format == HF_TEMPLATE) then
+    if (template == HF_TEMPLATE) then
         format[8] = string.format(format[8], formatted_name)
         format[9] = string.format(format[9], formatted_name)
         format[11] = string.format(format[11], formatted_name)
     end
+    format[2] = string.format(format[2], year)
+    format[3] = string.format(format[3], final_dir)
+    format[5] = string.format(format[5], file_name)
     if file_type == 'h' then
         vim.api.nvim_buf_set_lines(0, 0, 1, false, format)
     else
