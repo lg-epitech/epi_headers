@@ -70,7 +70,7 @@ local function copy(t)
   return setmetatable(u, getmetatable(t))
 end
 
-local set_dir = function()
+local function set_dir()
     if (os.execute('git rev-parse --is-inside-work-tree &> /dev/null') ~= 0) then
         return vim.loop.cwd()
     end
@@ -79,7 +79,7 @@ local set_dir = function()
     end
 end
 
-local get_extension = function()
+local function get_extension()
     local file_name = vim.api.nvim_buf_get_name(0)
     local extension = ""
 
@@ -95,7 +95,7 @@ local get_extension = function()
     return extension
 end
 
-local format_for_header = function(file_name)
+local function format_for_header(file_name)
     file_name = string.upper(file_name)
 
     file_name = file_name.gsub(file_name, "%.", "_")
@@ -103,7 +103,7 @@ local format_for_header = function(file_name)
     return file_name
 end
 
-local insert_header_from_template = function(template)
+local function insert_header_from_template(template)
     local year = os.date("%Y")
     local working_dir = set_dir()
     local file_name = vim.api.nvim_buf_get_name(0)
@@ -111,21 +111,17 @@ local insert_header_from_template = function(template)
     local formatted_name
     local file_type = get_extension()
     local format = copy(template);
-    local t = {}
 
     -- Get file_name and formatted_name for .h files
-    if (template == HF_TEMPLATE) then
-        t={}
-        for str in string.gmatch(file_name, "([^".."/".."]+)") do
-            table.insert(t, str)
-        end
-        file_name = t[#t]
-        formatted_name = format_for_header(file_name)
+    local t = {}
+    for str in string.gmatch(file_name, "([^".."/".."]+)") do
+        table.insert(t, str)
     end
+    file_name = t[#t]
+    formatted_name = format_for_header(file_name)
 
     -- Parse proper working_dir
     if (working_dir ~= nil) then
-        t = {}
         for str in string.gmatch(working_dir, "([^".."/".."]+)") do
             final_dir = str
         end
@@ -148,7 +144,7 @@ local insert_header_from_template = function(template)
     end
 end
 
-local insert_header = function()
+local function insert_header()
     local file_type = get_extension()
 
     if (file_type == "sh" or file_type == "Makefile") then
