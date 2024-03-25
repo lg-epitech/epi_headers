@@ -147,7 +147,7 @@ end
 local function insert_header()
     local file_type = get_extension()
 
-    if (file_type == "sh" or file_type == "Makefile") then
+    if (file_type == "sh" or file_type == "Makefile" or file_type == "makefile") then
         insert_header_from_template(HASH_LIKE_HEADER_TEMPLATE)
     elseif (file_type == "py") then
         insert_header_from_template(PYPEP8_TEMPLATE)
