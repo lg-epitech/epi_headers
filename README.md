@@ -10,7 +10,7 @@ Implementing ```epitech headers``` (POST 2017) for ```neovim``` **in lua**
 ```lua
 -- config.lua
 -- You can now insert header with the "tek" motion (modifiable)
-vim.keymap.set('n', "tek", function() require('headers').insert_header() end)
+vim.keymap.set('n', "tek", function() require('epiheaders').insert_header() end)
 ```
 
 ## Issues
